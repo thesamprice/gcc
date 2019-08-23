@@ -654,6 +654,18 @@
    }
 })
 
+(define_insn "adddi3_int"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+  (plus:DI (match_operand:DI 1 "register_operand" "%0")
+                 (match_operand:DI 2 "immediate_operand" "I")))]
+  "TARGET_MB_64 && ((long long)INTVAL(operands[2]) > (long long)-32768) && ((long long) INTVAL(operands[2]) < (long long)32767)"
+  "@
+  addlik\t%0,%2"
+  [(set_attr "type"     "darith")
+  (set_attr "mode"      "DI")
+  (set_attr "length"    "4")]
+)
+
 (define_insn "*adddi3_long"
   [(set (match_operand:DI 0 "register_operand" "=d,d")
 	(plus:DI (match_operand:DI 1 "register_operand" "%d,d")
@@ -718,6 +730,18 @@
 "
 {
 }")
+
+(define_insn "subdi316imm"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+        (minus:DI (match_operand:DI 1 "register_operand" "d")
+                  (match_operand:DI 2 "arith_operand" "K")))]
+  "TARGET_MB_64 && ((long long)INTVAL(operands[2]) > (long long)-32768) && ((long long) INTVAL(operands[2]) < (long long)32767) && (REGNO (operands[0]) == REGNO (operands[1]))"
+  "@
+   addlik\t%0,-%2"
+  [(set_attr "type"     "darith")
+  (set_attr "mode"      "DI")
+  (set_attr "length"    "4")])
+
 
 (define_insn "subsidi3"
   [(set (match_operand:DI 0 "register_operand" "=d,d,d")
@@ -1015,6 +1039,17 @@
 ;; Logical
 ;;----------------------------------------------------------------
 
+(define_insn "anddi3imm16"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+        (and:DI (match_operand:DI 1 "arith_operand" "%0")
+                (match_operand:DI 2 "arith_operand" "K")))]
+  "TARGET_MB_64 && ((long long)INTVAL(operands[2]) > (long long)-32768) && ((long long) INTVAL(operands[2]) < (long long)32767)"
+  "@
+   andli\t%0,%2"
+  [(set_attr "type"     "darith")
+  (set_attr "mode"      "DI")
+  (set_attr "length"    "4")])
+
 (define_insn "anddi3"
   [(set (match_operand:DI 0 "register_operand" "=d,d,d")
 	(and:DI (match_operand:DI 1 "arith_operand" "d,d,d")
@@ -1042,6 +1077,16 @@
   (set_attr "mode"	"SI,SI,SI,SI")
   (set_attr "length"	"4,8,8,8")])
 
+(define_insn "iordi3imm16"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+        (ior:DI (match_operand:DI 1 "arith_operand" "%0")
+                (match_operand:DI 2 "arith_operand" "K")))]
+  "TARGET_MB_64 && ((long long)INTVAL(operands[2]) > (long long)-32768) && ((long long) INTVAL(operands[2]) < (long long)32767)"
+  "@
+   orli\t%0,%2"
+  [(set_attr "type"     "darith")
+  (set_attr "mode"      "DI")
+  (set_attr "length"    "4")])
 
 (define_insn "iordi3"
   [(set (match_operand:DI 0 "register_operand" "=d,d")
@@ -1068,6 +1113,17 @@
   [(set_attr "type"	"arith,no_delay_arith,no_delay_arith,no_delay_arith")
   (set_attr "mode"	"SI,SI,SI,SI")
   (set_attr "length"	"4,8,8,8")])
+
+(define_insn "xordi3imm16"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+        (xor:DI (match_operand:DI 1 "arith_operand" "%0")
+                (match_operand:DI 2 "arith_operand" "K")))]
+  "TARGET_MB_64 && ((long long)INTVAL(operands[2]) > (long long)-32768) && ((long long) INTVAL(operands[2]) < (long long)32767)"
+  "@
+   xorli\t%0,%2"
+  [(set_attr "type"     "darith")
+  (set_attr "mode"      "DI")
+  (set_attr "length"    "4")])
 
 (define_insn "xordi3"
   [(set (match_operand:DI 0 "register_operand" "=d,d")
