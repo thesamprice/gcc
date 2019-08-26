@@ -1332,8 +1332,7 @@
   [(set (match_operand:DI 0 "nonimmediate_operand" "=d,d,d")
 	(match_operand:DI 1 "immediate_operand" "J,I,Mnis"))]
   "TARGET_MB_64 && (register_operand (operands[0], DImode) && 
-           (GET_CODE (operands[1]) == CONST_INT && 
-                 (INTVAL (operands[1]) <= (long long)549755813887 && INTVAL (operands[1]) >= (long long)-549755813888)))"  
+           (GET_CODE (operands[1]) == CONST_INT))"
   "@
    addlk\t%0,r0,r0\t
    addlik\t%0,r0,%1\t #N1 %X1
