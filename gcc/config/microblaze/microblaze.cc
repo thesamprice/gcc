@@ -1846,6 +1846,17 @@ microblaze_option_override (void)
 		   "%<-mcpu=v8.30.a%>");
         TARGET_REORDER = 0;
     }
+  ver = microblaze_version_to_int("v10.0");
+  if (ver < 0)
+    {
+	if (TARGET_AREA_OPTIMIZED_2)
+	 warning (0, "-mxl-frequency can be used only with -mcpu=v10.0 or greater");
+    }
+  else
+    {
+	if (TARGET_AREA_OPTIMIZED_2)
+	 microblaze_pipe = MICROBLAZE_PIPE_8;
+    }
 
   if (TARGET_MULTIPLY_HIGH && TARGET_SOFT_MUL)
     error ("%<-mxl-multiply-high%> requires %<-mno-xl-soft-mul%>");
