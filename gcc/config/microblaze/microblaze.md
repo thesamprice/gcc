@@ -1191,6 +1191,33 @@
   (set_attr "mode"	"SI,SI,SI")
   (set_attr "length"	"4,4,8")])
 
+(define_insn "zero_extendhidi2"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+	(zero_extend:DI (match_operand:HI 1 "register_operand" "d")))]
+  "TARGET_MB_64"
+  "andli\t%0,%1,0xffff"
+  [(set_attr "type"	"no_delay_arith")
+  (set_attr "mode"	"DI")
+  (set_attr "length"	"8")])
+
+(define_insn "zero_extendsidi2"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+	(zero_extend:DI (match_operand:SI 1 "register_operand" "d")))]
+  "TARGET_MB_64"
+  "andli\t%0,%1,0xffffffff"
+  [(set_attr "type"	"no_delay_arith")
+  (set_attr "mode"	"DI")
+  (set_attr "length"	"8")])
+  
+(define_insn "zero_extendqidi2"
+  [(set (match_operand:DI 0 "register_operand" "=d")
+	(zero_extend:DI (match_operand:QI 1 "register_operand" "d")))]
+  "TARGET_MB_64"
+  "andli\t%0,%1,0x00ff"
+  [(set_attr "type"	"no_delay_arith")
+  (set_attr "mode"	"DI")
+  (set_attr "length"	"8")])
+
 ;;----------------------------------------------------------------
 ;; Sign extension
 ;;----------------------------------------------------------------
