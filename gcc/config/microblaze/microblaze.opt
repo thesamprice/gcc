@@ -136,4 +136,9 @@ Target
 
 mxl-frequency
 Target Mask(AREA_OPTIMIZED_2)
-Use 8 stage pipeline (frequency optimization)
+Use 8 stage pipeline (frequency optimization).
+
+m64
+Target Mask(MB_64)
+MicroBlaze 64-bit mode.
+
