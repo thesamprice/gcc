@@ -266,13 +266,6 @@ extern enum pipeline_type microblaze_pipe;
 
 #define LOAD_EXTEND_OP(MODE)  ZERO_EXTEND
 
-#ifndef __arch64__
-#define PROMOTE_MODE(MODE, UNSIGNEDP, TYPE)     \
-  if (GET_MODE_CLASS (MODE) == MODE_INT         \
-      && GET_MODE_SIZE (MODE) < 4)              \
-    (MODE) = SImode;
-#endif
-
 /* Standard register usage.  */
 
 /* On the MicroBlaze, we have 32 integer registers */
@@ -470,18 +463,6 @@ extern struct microblaze_frame_info current_frame_info;
 #define GP_ARG_LAST				(GP_REG_FIRST + MB_ABI_LAST_ARG_REGNUM)
 
 #define MAX_ARGS_IN_REGISTERS			MB_ABI_MAX_ARG_REGS
-
-#ifdef __aarch64__
-#define LIBCALL_VALUE(MODE)						\
-  gen_rtx_REG (MODE,GP_RETURN)
-#else								
-#define LIBCALL_VALUE(MODE)						\
-  gen_rtx_REG (								\
-	   ((GET_MODE_CLASS (MODE) != MODE_INT				\
-	     || GET_MODE_SIZE (MODE) >= 4)				\
-	    ? (MODE)							\
-	    : SImode), GP_RETURN)
-#endif
 
 /* 1 if N is a possible register number for a function value.
    On the MicroBlaze, R2 R3 are the only register thus used.

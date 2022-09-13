@@ -3918,7 +3918,16 @@ microblaze_function_value (const_tree valtype,
 			   const_tree func ATTRIBUTE_UNUSED,
 			   bool outgoing ATTRIBUTE_UNUSED)
 {
-  return LIBCALL_VALUE (TYPE_MODE (valtype));
+  return gen_rtx_REG (TYPE_MODE (valtype), GP_RETURN);
+}
+
+#undef  TARGET_LIBCALL_VALUE
+#define TARGET_LIBCALL_VALUE microblaze_libcall_value
+
+rtx
+microblaze_libcall_value (machine_mode mode, const_rtx fun ATTRIBUTE_UNUSED)
+{
+  return gen_rtx_REG (mode, GP_RETURN);
 }
 
 /* Implement TARGET_SCHED_ADJUST_COST.  */
