@@ -2025,7 +2025,7 @@ microblaze_save_volatiles (tree func)
 int
 microblaze_is_interrupt_variant (void)
 {
-  return (interrupt_handler || fast_interrupt);
+  return (interrupt_handler || fast_interrupt || break_handler);
 }
 int
 microblaze_is_break_handler (void)
@@ -2064,7 +2064,7 @@ microblaze_must_save_register (int regno)
     {
       if (df_regs_ever_live_p (regno) 
 	  || regno == MB_ABI_MSR_SAVE_REG
-	  || ((interrupt_handler || fast_interrupt)
+	  || ((interrupt_handler || fast_interrupt || break_handler)
               && (regno == MB_ABI_ASM_TEMP_REGNUM
 	          || regno == MB_ABI_EXCEPTION_RETURN_ADDR_REGNUM)))
 	return 1;
@@ -2280,9 +2280,6 @@ compute_frame_size (HOST_WIDE_INT size)
   fast_interrupt =
     microblaze_fast_interrupt_function_p (current_function_decl);
   save_volatiles = microblaze_save_volatiles (current_function_decl);
-  if (break_handler)
-    interrupt_handler = break_handler;
-
   gp_reg_size = 0;
   mask = 0;
   var_size = size;
@@ -3242,7 +3239,7 @@ microblaze_expand_prologue (void)
 				 gen_rtx_PLUS (Pmode, stack_pointer_rtx,
 					       const0_rtx));
 
-	  if (interrupt_handler)
+	  if (interrupt_handler || break_handler)
 	    /* Do not optimize in flow analysis.  */
 	    MEM_VOLATILE_P (mem_rtx) = 1;
 
@@ -3353,12 +3350,12 @@ microblaze_expand_epilogue (void)
          a load-use stall cycle  :)   This is also important to handle alloca. 
          (See comments for if (frame_pointer_needed) below.  */
 
-      if (!crtl->is_leaf || interrupt_handler)
+      if (!crtl->is_leaf || interrupt_handler || break_handler)
 	{
 	  mem_rtx =
 	    gen_rtx_MEM (Pmode,
 			 gen_rtx_PLUS (Pmode, stack_pointer_rtx, const0_rtx));
-	  if (interrupt_handler)
+	  if (interrupt_handler || break_handler)
 	    /* Do not optimize in flow analysis.  */
 	    MEM_VOLATILE_P (mem_rtx) = 1;
 	  reg_rtx = gen_rtx_REG (Pmode, MB_ABI_SUB_RETURN_ADDR_REGNUM);
