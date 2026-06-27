@@ -1,5 +1,6 @@
 MULTILIB_OPTIONS = m64 mxl-barrel-shift mlittle-endian mno-xl-soft-mul mxl-multiply-high
-MULTILIB_DIRNAMES = m64 bs le m mh
+#MULTILIB_DIRNAMES = m64 bs le m mh
+MULTILIB_DIRNAMES = . . . . .
 MULTILIB_EXCEPTIONS = *m64/mxl-multiply-high mxl-multiply-high
 MULTILIB_EXCEPTIONS += *m64
 MULTILIB_EXCEPTIONS += *m64/mxl-barrel-shift
