@@ -10617,6 +10617,7 @@ proc check_effective_target_sync_int_long { } {
 	     || [check_effective_target_mips_llsc]
 	     || [istarget nvptx*-*-*]
 	     || ([istarget xtensa*-*-*] && [check_effective_target_xtensa_atomic])
+	     || [istarget microblaze*-*-*]
 	 }}]
 }
 
