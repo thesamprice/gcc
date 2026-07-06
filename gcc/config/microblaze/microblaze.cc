@@ -1884,6 +1884,13 @@ microblaze_option_override (void)
   /* Always use DFA scheduler.  */
   microblaze_sched_use_dfa = 1;
 
+  /* Soft-float emulation never raises IEEE 754 FP exceptions, so
+     constant-folding of out-of-range float-to-int (e.g. (int)2e9f)
+     is safe.  Only set when the user hasn't explicitly requested
+     trapping-math behaviour.  */
+  if (!TARGET_HARD_FLOAT && !global_options_set.x_flag_trapping_math)
+    flag_trapping_math = 0;
+
 #if 0
   microblaze_abicalls = MICROBLAZE_ABICALLS_NO;
 #endif
