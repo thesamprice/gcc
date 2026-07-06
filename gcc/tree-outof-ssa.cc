@@ -308,7 +308,7 @@ insert_value_copy_on_edge (edge e, int dest, tree src, location_t locus)
 {
   rtx dest_rtx, seq, x;
   machine_mode dest_mode, src_mode;
-  int unsignedp;
+  int unsignedp = 0;
 
   if (dump_file && (dump_flags & TDF_DETAILS))
     {
@@ -334,8 +334,11 @@ insert_value_copy_on_edge (edge e, int dest, tree src, location_t locus)
   src_mode = TYPE_MODE (TREE_TYPE (src));
   dest_mode = GET_MODE (dest_rtx);
   gcc_assert (src_mode == TYPE_MODE (TREE_TYPE (name)));
-  gcc_assert (!REG_P (dest_rtx)
-	      || dest_mode == promote_ssa_mode (name, &unsignedp));
+  if (REG_P (dest_rtx))
+    {
+      machine_mode pmode = promote_ssa_mode (name, &unsignedp);
+      gcc_assert (dest_mode == pmode);
+    }
 
   if (src_mode != dest_mode)
     {
